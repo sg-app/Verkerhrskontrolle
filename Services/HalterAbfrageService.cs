@@ -49,9 +49,11 @@ namespace Verkehrskontrolle.Services
             throw new NotImplementedException();
         }
 
-        public Task<Halter> GetHalterDetailsByNameUndGeburtsdatumAsync(string vorname, string nachname, DateTime geburtsdatum)
+        public async Task<Halter> GetHalterDetailsByNameUndGeburtsdatumAsync(string vorname, string nachname, DateTime geburtsdatum)
         {
-            throw new NotImplementedException();
+            Halter halter = new Halter();
+            halter = await _context.Halter.FirstOrDefaultAsync(h => (h.Vorname == vorname) && (h.Nachname == nachname) && (h.Geburtsdatum == geburtsdatum));
+            return halter;
         }
     }
 }
