@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verkehrskontrolle", "Verkehrskontrolle.csproj", "{F187B6B2-9929-4784-A9EC-FC46890144FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verkehrskontrolle", "Verkehrskontrolle.csproj", "{F187B6B2-9929-4784-A9EC-FC46890144FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerkehrskontrolleTests", "..\VerkehrskontrolleTests\VerkehrskontrolleTests.csproj", "{D3C52364-EEAB-46C7-9333-F0319719CFFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F187B6B2-9929-4784-A9EC-FC46890144FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F187B6B2-9929-4784-A9EC-FC46890144FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F187B6B2-9929-4784-A9EC-FC46890144FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3C52364-EEAB-46C7-9333-F0319719CFFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3C52364-EEAB-46C7-9333-F0319719CFFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3C52364-EEAB-46C7-9333-F0319719CFFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3C52364-EEAB-46C7-9333-F0319719CFFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
