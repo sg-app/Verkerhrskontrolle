@@ -10,7 +10,9 @@ using Verkehrskontrolle.Models;
 
 namespace Verkehrskontrolle.Controllers
 {
-    public class FahrzeugController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class FahrzeugController : ControllerBase
     {
         private readonly VerkehrskontrolleDbContext _context;
 
@@ -19,15 +21,22 @@ namespace Verkehrskontrolle.Controllers
             _context = context;
         }
 
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         // GET: Fahrzeug
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult<List<Fahrzeug>>> GetFahrzeuge()
         {
             var verkehrskontrolleDbContext = _context.Fahrzeuge.Include(f => f.Halter);
-            return View(await verkehrskontrolleDbContext.ToListAsync());
+            return Ok(await verkehrskontrolleDbContext.ToListAsync());
         }
 
+
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         // GET: Fahrzeug/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> GetFahrzeugDetails(int? id)
         {
             if (id == null || _context.Fahrzeuge == null)
             {
@@ -42,15 +51,10 @@ namespace Verkehrskontrolle.Controllers
                 return NotFound();
             }
 
-            return View(fahrzeug);
+            return Ok(fahrzeug);
         }
 
-        // GET: Fahrzeug/Create
-        public IActionResult Create()
-        {
-            ViewData["HalterId"] = new SelectList(_context.Halter, "Id", "Id");
-            return View();
-        }
+
 
         // POST: Fahrzeug/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -65,84 +69,12 @@ namespace Verkehrskontrolle.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["HalterId"] = new SelectList(_context.Halter, "Id", "Id", fahrzeug.HalterId);
-            return View(fahrzeug);
+            return Ok(fahrzeug);
         }
 
-        // GET: Fahrzeug/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Fahrzeuge == null)
-            {
-                return NotFound();
-            }
-
-            var fahrzeug = await _context.Fahrzeuge.FindAsync(id);
-            if (fahrzeug == null)
-            {
-                return NotFound();
-            }
-            ViewData["HalterId"] = new SelectList(_context.Halter, "Id", "Id", fahrzeug.HalterId);
-            return View(fahrzeug);
-        }
-
-        // POST: Fahrzeug/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Antrieb,Sitze,Leistung,ZulassungDatum,TüvDatum,Kennzeichen,HalterId")] Fahrzeug fahrzeug)
-        {
-            if (id != fahrzeug.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(fahrzeug);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FahrzeugExists(fahrzeug.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["HalterId"] = new SelectList(_context.Halter, "Id", "Id", fahrzeug.HalterId);
-            return View(fahrzeug);
-        }
-
-        // GET: Fahrzeug/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Fahrzeuge == null)
-            {
-                return NotFound();
-            }
-
-            var fahrzeug = await _context.Fahrzeuge
-                .Include(f => f.Halter)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (fahrzeug == null)
-            {
-                return NotFound();
-            }
-
-            return View(fahrzeug);
-        }
 
         // POST: Fahrzeug/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpDelete("{Id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -157,12 +89,9 @@ namespace Verkehrskontrolle.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Ok();
         }
 
-        private bool FahrzeugExists(int id)
-        {
-          return (_context.Fahrzeuge?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+
     }
 }
