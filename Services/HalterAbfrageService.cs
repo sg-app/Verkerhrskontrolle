@@ -1,23 +1,47 @@
-﻿using Verkehrskontrolle.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Verkehrskontrolle.Data;
+using Verkehrskontrolle.Interfaces;
 using Verkehrskontrolle.Models;
 
 namespace Verkehrskontrolle.Services
 {
     public class HalterAbfrageService : IHalterAbfrageService
     {
+
+        private readonly VerkehrskontrolleDbContext _context;
+
+        public HalterAbfrageService(VerkehrskontrolleDbContext context)
+        {
+            _context = context;
+        }
+
         public Task<bool> GetFahrerlaubnisByKennzeichenUndFuehrerscheinnummerAsync(string kennzeichen, int fuehrerscheinId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<string>> GetFahrzeugtypErlaubnisByFuehrerscheinnummerAsync(int fuehrerscheinId)
+        public async Task<ICollection<string>> GetFahrzeugtypErlaubnisByFuehrerscheinnummerAsync(int fuehrerscheinId)
         {
-            throw new NotImplementedException();
+            var fuehrerschein = await _context.Fuehrerscheine.FirstOrDefaultAsync(f => f.Id == fuehrerscheinId);
+         
+            ICollection<string> result = new List<string>();
+
+            if (fuehrerschein.PKWErlaublnis == true) result.Add("PKW");
+            if (fuehrerschein.AnhängerErlaubnis == true) result.Add("Anhänger");
+            if (fuehrerschein.LKWErlaubnis == true) result.Add("LKW");
+            if (fuehrerschein.PKWErlaublnis == false && fuehrerschein.AnhängerErlaubnis == false && fuehrerschein.LKWErlaubnis == false) result.Add("Keine Fahrzeuge erlaubt");
+
+            return result;
+
         }
 
-        public Task<bool> GetFührerscheinIstGültigByFuehrerscheinnummerAsync(int fuehrerscheinId)
+        public async Task<bool> GetFührerscheinIstGültigByFuehrerscheinnummerAsync(int fuehrerscheinId)
         {
-            throw new NotImplementedException();
+            var getFuehrerscheinById = await _context.Fuehrerscheine.FirstOrDefaultAsync(f => f.Id == fuehrerscheinId);
+            
+            if (getFuehrerscheinById.Gültigkeit > DateTime.Now) return true;
+            
+            else return false;
         }
 
         public Task<Halter> GetHalterDetailsByKennzeichenAsync(string kennzeichen)
