@@ -16,6 +16,7 @@ namespace Verkehrskontrolle.Models
         [MaxLength(10)]
         public string Kennzeichen { get; set; }
         public int HalterId { get; set; }
+        public Halter Halter { get; set; }
 
     }
 }
