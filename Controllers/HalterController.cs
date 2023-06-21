@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Verkehrskontrolle.Data;
+using Verkehrskontrolle.DTOs;
 using Verkehrskontrolle.Models;
 
 namespace Verkehrskontrolle.Controllers
@@ -18,7 +19,7 @@ namespace Verkehrskontrolle.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<Halter>>> Get()
+        public async Task<ActionResult<List<Halter>>> GetAll()
         {
             return await _context.Halter.ToListAsync();
         }
@@ -37,11 +38,28 @@ namespace Verkehrskontrolle.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Halter>> Post(Halter halter)
+        public async Task<ActionResult<Halter>> Create(HalterDto halter)
         {
+            var fuehrerschein = await _context.Fuehrerscheine.FindAsync(halter.FührerscheinId);
+
+            if (fuehrerschein == null)
+                return BadRequest("Führerschein existiert nicht.");
+
+            var halterToAdd = new Halter()
+            {
+                Vorname = halter.Vorname,
+                Nachname = halter.Nachname,
+                Geburtsdatum = halter.Geburtsdatum,
+                Straße = halter.Straße,
+                Hausnummer = halter.Hausnummer,
+                Postleitzahl = halter.Postleitzahl,
+                Ort = halter.Ort,
+                FührerscheinId = halter.FührerscheinId
+            };
+
             try
             {
-                await _context.Halter.AddAsync(halter);
+                await _context.Halter.AddAsync(halterToAdd);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -55,7 +73,7 @@ namespace Verkehrskontrolle.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Halter>> Put(int id, Halter halter)
+        public async Task<ActionResult<Halter>> Update(int id, HalterDto halter)
         {
             try
             {
@@ -73,12 +91,13 @@ namespace Verkehrskontrolle.Controllers
                 toUpdate.FührerscheinId = halter.FührerscheinId;
                 _context.Halter.Update(toUpdate);
                 await _context.SaveChangesAsync();
+                return Ok(toUpdate);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return Ok();
+            
         }
 
         [HttpDelete("{id}")]
