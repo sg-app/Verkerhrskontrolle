@@ -7,6 +7,8 @@ namespace Verkehrskontrolle.Models
         public int Id { get; set; }
         [MaxLength(50)]
         public string Antrieb { get; set; }
+        [MaxLength(50)]
+        public string Fahrzeugtyp { get; set;}
         [RegularExpression("[1-9][0-9]")]
         public int Sitze { get; set; }
         [RegularExpression("[0-4][0-9][0-9]")]
