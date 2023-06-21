@@ -9,9 +9,9 @@ namespace Verkehrskontrolle.Models
         public string Antrieb { get; set; }
         [MaxLength(50)]
         public string Fahrzeugtyp { get; set;}
-        [RegularExpression("[1-9][0-9]")]
+        [RegularExpression(@"^[1-9]?\d{0,2}")]
         public int Sitze { get; set; }
-        [RegularExpression("[0-4][0-9][0-9]")]
+        [RegularExpression(@"^[1-9]?\d{0,3}")]
         public int Leistung { get; set; }
         public DateTime ZulassungDatum { get; set; }
         public DateTime TüvDatum { get; set; }
