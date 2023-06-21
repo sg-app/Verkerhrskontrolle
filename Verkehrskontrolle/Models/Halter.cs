@@ -18,7 +18,7 @@ namespace Verkehrskontrolle.Models
         [MaxLength(100)]
         public string Ort { get; set; }
         public int FührerscheinId { get; set; }
-        public Führerschein Führerschein { get; set; }
+        public Führerschein? Führerschein { get; set; }
 
 
 
