@@ -8,32 +8,76 @@ namespace Verkehrskontrolle.Services
 {
     public class HalterAbfrageService : IHalterAbfrageService
     {
-
         private readonly VerkehrskontrolleDbContext _context;
 
-        public HalterAbfrageService(VerkehrskontrolleDbContext context)
-        {
-            _context = context;
+        public HalterAbfrageService(VerkehrskontrolleDbContext context) { _context = context; }
+        /// <summary>
+        /// Prüft ob der Halter der FührerscheinId das Auto mit dem angegebenen Kennzeichen fahren darf.
+        /// </summary>
+        /// <param name="kennzeichen"></param>
+        /// <param name="fuehrerscheinId"></param>
+        /// <returns></returns>
+        public async Task<bool> GetFahrerlaubnisByKennzeichenUndFuehrerscheinnummerAsync(string kennzeichen, int fuehrerscheinId)
+        {        
+            var fahrzeug = await _context.Fahrzeuge.FirstOrDefaultAsync(f => f.Kennzeichen == kennzeichen);
+            var führerschein = _context.Fuehrerscheine.FirstOrDefault(x => x.Id == fuehrerscheinId);
+
+            if(führerschein == null || fahrzeug == null)
+            {
+                return false;
+            }
+
+            if (!führerschein.LKWErlaubnis)
+            {
+                if (!fahrzeug.Fahrzeugtyp.Contains("LKW"))
+                {
+                    return false;
+                }
+            }
+
+            if (!führerschein.PKWErlaublnis)
+            {
+                if (!fahrzeug.Fahrzeugtyp.Contains("PKW"))
+                {
+                    return false;
+                }
+            }
+            if (!führerschein.AnhängerErlaubnis)
+            {
+                if (!fahrzeug.Fahrzeugtyp.Contains("Anhänger"))
+                {
+                    return false;
+                }
+            }
+            return true;            
         }
 
-        public Task<bool> GetFahrerlaubnisByKennzeichenUndFuehrerscheinnummerAsync(string kennzeichen, int fuehrerscheinId)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Erhält eine Liste der erlaubten Fahrzeugtypen für einen Führerschein
+        /// </summary>
+        /// <param name="fuehrerscheinId"></param>
+        /// <returns></returns>
         public async Task<ICollection<string>> GetFahrzeugtypErlaubnisByFuehrerscheinnummerAsync(int fuehrerscheinId)
         {
-            var fuehrerschein = await _context.Fuehrerscheine.FirstOrDefaultAsync(f => f.Id == fuehrerscheinId);
-         
-            ICollection<string> result = new List<string>();
+            var führerschein = _context.Fuehrerscheine.FirstOrDefault(x => x.Id == fuehrerscheinId);
+            var erlaubnisListe = new List<string>();
 
-            if (fuehrerschein.PKWErlaublnis == true) result.Add("PKW");
-            if (fuehrerschein.AnhängerErlaubnis == true) result.Add("Anhänger");
-            if (fuehrerschein.LKWErlaubnis == true) result.Add("LKW");
-            if (fuehrerschein.PKWErlaublnis == false && fuehrerschein.AnhängerErlaubnis == false && fuehrerschein.LKWErlaubnis == false) result.Add("Keine Fahrzeuge erlaubt");
+            if (führerschein.AnhängerErlaubnis)
+            {
+                erlaubnisListe.Add("Anhänger");
+            }
 
-            return result;
+            if (führerschein.LKWErlaubnis)
+            {
+                erlaubnisListe.Add("LKW");
+            }
 
+            if (führerschein.PKWErlaublnis)
+            {
+                erlaubnisListe.Add("PKW");
+            }
+
+            return erlaubnisListe;
         }
 
         public async Task<bool> GetFührerscheinIstGültigByFuehrerscheinnummerAsync(int fuehrerscheinId)
