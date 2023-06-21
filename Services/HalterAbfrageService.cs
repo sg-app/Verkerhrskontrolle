@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using Verkehrskontrolle.Data;
 using Verkehrskontrolle.Interfaces;
 using Verkehrskontrolle.Models;
@@ -44,9 +45,23 @@ namespace Verkehrskontrolle.Services
             else return false;
         }
 
-        public Task<Halter> GetHalterDetailsByKennzeichenAsync(string kennzeichen)
+        public async Task<Halter> GetHalterDetailsByKennzeichenAsync(string kennzeichen)
         {
-            throw new NotImplementedException();
+            var fahrzeug = await _context.Fahrzeuge.FindAsync(kennzeichen);
+
+            if (fahrzeug != null)
+            {
+
+                var halter = fahrzeug.Halter;
+                return halter;
+            }
+            else
+            {
+                return null;
+            }
+
+
+
         }
 
         public Task<Halter> GetHalterDetailsByNameUndGeburtsdatumAsync(string vorname, string nachname, DateTime geburtsdatum)
