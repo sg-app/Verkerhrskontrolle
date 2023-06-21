@@ -5,7 +5,9 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verkehrskontrolle", "Verkehrskontrolle\Verkehrskontrolle.csproj", "{37DBDA89-A7EA-48C5-8456-B9F7A4CDE888}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerkehrskontrolleTests", "VerkehrskontrolleTests\VerkehrskontrolleTests.csproj", "{724E04BD-E37A-4981-A962-5ED6A625109D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VerkehrskontrolleTests", "VerkehrskontrolleTests\VerkehrskontrolleTests.csproj", "{724E04BD-E37A-4981-A962-5ED6A625109D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerkehrskontrolleServiceTests", "VerkehrskontrolleTests1\VerkehrskontrolleServiceTests.csproj", "{B40C2DD3-1936-440D-B7C1-B7B3F2AA54BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{724E04BD-E37A-4981-A962-5ED6A625109D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{724E04BD-E37A-4981-A962-5ED6A625109D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{724E04BD-E37A-4981-A962-5ED6A625109D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B40C2DD3-1936-440D-B7C1-B7B3F2AA54BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B40C2DD3-1936-440D-B7C1-B7B3F2AA54BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B40C2DD3-1936-440D-B7C1-B7B3F2AA54BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B40C2DD3-1936-440D-B7C1-B7B3F2AA54BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

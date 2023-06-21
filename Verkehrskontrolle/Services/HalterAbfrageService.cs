@@ -29,7 +29,7 @@ namespace Verkehrskontrolle.Services
 
             if (!führerschein.LKWErlaubnis)
             {
-                if (!fahrzeug.Fahrzeugtyp.Contains("LKW"))
+                if (fahrzeug.Fahrzeugtyp.Contains("LKW"))
                 {
                     return false;
                 }
@@ -37,14 +37,14 @@ namespace Verkehrskontrolle.Services
 
             if (!führerschein.PKWErlaublnis)
             {
-                if (!fahrzeug.Fahrzeugtyp.Contains("PKW"))
+                if (fahrzeug.Fahrzeugtyp.Contains("PKW"))
                 {
                     return false;
                 }
             }
             if (!führerschein.AnhängerErlaubnis)
             {
-                if (!fahrzeug.Fahrzeugtyp.Contains("Anhänger"))
+                if (fahrzeug.Fahrzeugtyp.Contains("Anhänger"))
                 {
                     return false;
                 }
