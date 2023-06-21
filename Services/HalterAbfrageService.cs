@@ -79,9 +79,13 @@ namespace Verkehrskontrolle.Services
             return erlaubnisListe;
         }
 
-        public Task<bool> GetFührerscheinIstGültigByFuehrerscheinnummerAsync(int fuehrerscheinId)
+        public async Task<bool> GetFührerscheinIstGültigByFuehrerscheinnummerAsync(int fuehrerscheinId)
         {
-            throw new NotImplementedException();
+            var getFuehrerscheinById = await _context.Fuehrerscheine.FirstOrDefaultAsync(f => f.Id == fuehrerscheinId);
+            
+            if (getFuehrerscheinById.Gültigkeit > DateTime.Now) return true;
+            
+            else return false;
         }
 
         public Task<Halter> GetHalterDetailsByKennzeichenAsync(string kennzeichen)
