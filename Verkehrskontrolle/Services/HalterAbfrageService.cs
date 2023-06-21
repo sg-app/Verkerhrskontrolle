@@ -91,7 +91,7 @@ namespace Verkehrskontrolle.Services
 
         public async Task<Halter> GetHalterDetailsByKennzeichenAsync(string kennzeichen)
         {
-            var fahrzeug = await _context.Fahrzeuge.FindAsync(kennzeichen);
+            var fahrzeug = await _context.Fahrzeuge.FirstOrDefaultAsync(f => f.Kennzeichen == kennzeichen);
 
             if (fahrzeug != null)
             {
