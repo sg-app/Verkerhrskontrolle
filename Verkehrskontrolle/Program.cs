@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Verkehrskontrolle.Data;
+using Verkehrskontrolle.Interfaces;
+using Verkehrskontrolle.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,7 @@ builder.Services.AddDbContext<VerkehrskontrolleDbContext>((opt) =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("default"));
 });
+builder.Services.AddTransient<IHalterAbfrageService, HalterAbfrageService>();
 
 var app = builder.Build();
 

@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Verkehrskontrolle.Models;
 
-namespace Verkehrskontrolle.Models
+namespace Verkehrskontrolle.DTOs
 {
-    public class Fahrzeug
+    public class FahrzeugDto
     {
-        public int Id { get; set; }
-        [MaxLength(50)]
         public string Antrieb { get; set; }
         [MaxLength(50)]
-        public string Fahrzeugtyp { get; set;}
+        public string Fahrzeugtyp { get; set; }
         [RegularExpression(@"^[1-9]?\d{0,2}")]
         public int Sitze { get; set; }
         [RegularExpression(@"^[1-9]?\d{0,3}")]
@@ -18,7 +17,6 @@ namespace Verkehrskontrolle.Models
         [MaxLength(10)]
         public string Kennzeichen { get; set; }
         public int HalterId { get; set; }
-        public Halter Halter { get; set; }
 
     }
 }

@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Verkehrskontrolle/Migrations/20230621112818_init2.cs
+/Verkehrskontrolle/Migrations/20230621112818_init2.Designer.cs
+/Verkehrskontrolle/Migrations/VerkehrskontrolleDbContextModelSnapshot.cs

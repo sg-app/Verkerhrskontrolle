@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Verkehrskontrolle.Data;
+using Verkehrskontrolle.DTOs;
 using Verkehrskontrolle.Models;
 
 namespace Verkehrskontrolle.Controllers
@@ -30,7 +31,6 @@ namespace Verkehrskontrolle.Controllers
             var verkehrskontrolleDbContext = _context.Fahrzeuge.Include(f => f.Halter);
             return Ok(await verkehrskontrolleDbContext.ToListAsync());
         }
-
 
 
         [HttpGet("{id}")]
@@ -60,29 +60,52 @@ namespace Verkehrskontrolle.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Antrieb,Sitze,Leistung,ZulassungDatum,TüvDatum,Kennzeichen,HalterId")] Fahrzeug fahrzeug)
+        public async Task<IActionResult> CreateFahrzeug(FahrzeugDto fahrzeugDto)
         {
-            if (ModelState.IsValid)
+
+            var halter = await _context.Halter.FindAsync(fahrzeugDto.HalterId);
+
+            if (halter == null)
+                return BadRequest("Halter existiert nicht.");
+
+            var fahrzeugToAdd = new Fahrzeug()
             {
-                _context.Add(fahrzeug);
+                Antrieb = fahrzeugDto.Antrieb,
+                Fahrzeugtyp = fahrzeugDto.Fahrzeugtyp,
+                Sitze = fahrzeugDto.Sitze,
+                Leistung = fahrzeugDto.Leistung,
+                ZulassungDatum = fahrzeugDto.ZulassungDatum,
+                TüvDatum = fahrzeugDto.TüvDatum,
+                Kennzeichen = fahrzeugDto.Kennzeichen,
+                HalterId = fahrzeugDto.HalterId,
+            };
+            try
+            {
+                await _context.Fahrzeuge.AddAsync(fahrzeugToAdd);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            return Ok(fahrzeug);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Created(String.Empty, fahrzeugToAdd);
         }
+
+
+
+    
 
 
         // POST: Fahrzeug/Delete/5
         [HttpDelete("{Id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteFahrzeug(int Id)
         {
             if (_context.Fahrzeuge == null)
             {
                 return Problem("Entity set 'VerkehrskontrolleDbContext.Fahrzeuge'  is null.");
             }
-            var fahrzeug = await _context.Fahrzeuge.FindAsync(id);
+            var fahrzeug = await _context.Fahrzeuge.FindAsync(Id);
             if (fahrzeug != null)
             {
                 _context.Fahrzeuge.Remove(fahrzeug);
