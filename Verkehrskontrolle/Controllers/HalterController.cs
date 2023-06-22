@@ -2,12 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Verkehrskontrolle.Data;
 using Verkehrskontrolle.DTOs;
+using Verkehrskontrolle.Middleware;
 using Verkehrskontrolle.Models;
 
 namespace Verkehrskontrolle.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class HalterController : ControllerBase
     {
         private readonly VerkehrskontrolleDbContext _context;

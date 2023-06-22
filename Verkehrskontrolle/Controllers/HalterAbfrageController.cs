@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Verkehrskontrolle.Interfaces;
+using Verkehrskontrolle.Middleware;
 using Verkehrskontrolle.Models;
 
 namespace Verkehrskontrolle.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class HalterAbfrageController : ControllerBase
     {
         private readonly IHalterAbfrageService _service;

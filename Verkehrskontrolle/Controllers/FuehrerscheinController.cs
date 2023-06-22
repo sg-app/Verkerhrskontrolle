@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Verkehrskontrolle.Data;
 using Verkehrskontrolle.DTOs;
+using Verkehrskontrolle.Middleware;
 using Verkehrskontrolle.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -9,6 +10,7 @@ namespace Verkehrskontrolle.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class FuehrerscheinController : ControllerBase
     {
         private readonly VerkehrskontrolleDbContext _context;
