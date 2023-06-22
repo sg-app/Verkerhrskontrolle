@@ -10,7 +10,7 @@ namespace Verkehrskontrolle.Data
         public virtual DbSet<Halter> Halter { get; set; }
         public virtual DbSet<Führerschein> Fuehrerscheine { get; set; }
 
-        public VerkehrskontrolleDbContext(DbContextOptions options): base(options)
+        public VerkehrskontrolleDbContext(DbContextOptions<VerkehrskontrolleDbContext> options): base(options)
         {
             
         }
