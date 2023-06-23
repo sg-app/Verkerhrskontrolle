@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Verkehrskontrolle.Interfaces;
-using Verkehrskontrolle.Middleware;
 using Verkehrskontrolle.Models;
 
 namespace Verkehrskontrolle.Controllers

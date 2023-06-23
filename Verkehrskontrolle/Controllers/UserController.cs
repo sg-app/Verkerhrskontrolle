@@ -1,88 +1,75 @@
-﻿
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Verkehrskontrolle.Data;
-using Verkehrskontrolle.Extensions;
-using Verkehrskontrolle.Middleware;
+using Verkehrskontrolle.Interfaces;
 using Verkehrskontrolle.Models;
+using Verkehrskontrolle.Services;
 
 namespace Verkehrskontrolle.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
-        private readonly AuthDbContext _context;
-        private readonly JwtSettings _jwtSettings;
+        private readonly IUserManager _userManager;
 
-        public UserController(AuthDbContext context, IOptions<JwtSettings> jwtSettings)
+        public UserController(IUserManager userManager)
         {
-            _context = context;
-            _jwtSettings = jwtSettings.Value;
+            _userManager = userManager;
         }
 
 
         [HttpGet]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<ActionResult<List<User>>> GetAll()
         {
-            return Ok(await _context.Users.ToListAsync());
+            return Ok(await _userManager.GetAllUserAsync());
         }
         
 
-        [HttpPost("authenticate")]
-        public async Task<ActionResult<AuthenticateResponse?>> Authenticate(string email, string password)
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<string>> Authenticate(LoginCredentials credentials)
         {
 
-            var user = await _context.Users.FindAsync(email);
-
-            if (user == null)
-                return NotFound("User not found.");
-            
-            if (password.CreateMD5() != user.Password)
-                return BadRequest("Password not correct.");
-            
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jwtSettings.TokenKey);
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var token = await _userManager.Login(credentials);
+            return token switch
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("email", user.Email) }),
-                Expires = DateTime.Today.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                UserManager.INVALIDUSER => NotFound("User not found."),
+                UserManager.INVALIDPASSWORD => BadRequest("Password invalid."),
+                _ => Ok(token)
             };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            
-            return Ok(new AuthenticateResponse() { User = user, Token = tokenHandler.WriteToken(token) }); 
+
         }
 
         [HttpPost]
         public async Task<ActionResult<User>> CreateUser(User user)
         {
-            user.Password = user.Password.CreateMD5();
-            //user.Token = Guid.NewGuid();
+            var created = await _userManager.CreateUserAsync(user);
+            if (created == null)
+                return BadRequest("User already exists.");
 
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
+            return Created(String.Empty, created);
+        }
 
-            return Created(String.Empty, user);
+        [HttpPut("{email}")]
+        public async Task<ActionResult<User>> UpdateUserPassword(string email, string password)
+        {
+            var updatet = await _userManager.UpdateUserAsync(new User() { Email = email, Password = password});
+            if (updatet == null)
+                return NotFound("User not found.");
+
+            return Ok(updatet);
         }
 
         [HttpDelete("{email}")]
         [Authorize]
-        public async Task<ActionResult<User>> CreateUser(string email)
+        public async Task<ActionResult<User>> DeleteUser(string email)
         {
-            var toDelete = await _context.Users.FindAsync(email);
-            if(toDelete == null)
-                return BadRequest("User not found.");
-
-            _context.Remove(toDelete);
-            await _context.SaveChangesAsync();
+            var result = await _userManager.DeleteUserAsync(email);
+            
+            if(!result)
+                return NotFound("User not found.");
 
             return NoContent();
         }

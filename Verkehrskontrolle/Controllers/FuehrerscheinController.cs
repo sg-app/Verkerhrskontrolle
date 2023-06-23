@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Verkehrskontrolle.Data;
 using Verkehrskontrolle.DTOs;
-using Verkehrskontrolle.Middleware;
 using Verkehrskontrolle.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Verkehrskontrolle.Controllers
 {
