@@ -7,7 +7,9 @@ namespace Verkehrskontrolle.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+#if BYPASS_AUTH
     [Authorize]
+#endif
     public class HalterAbfrageController : ControllerBase
     {
         private readonly IHalterAbfrageService _service;

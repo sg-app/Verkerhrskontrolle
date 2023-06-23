@@ -14,7 +14,9 @@ namespace Verkehrskontrolle.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+#if BYPASS_AUTH
     [Authorize]
+#endif
     public class FahrzeugController : ControllerBase
     {
         private readonly VerkehrskontrolleDbContext _context;

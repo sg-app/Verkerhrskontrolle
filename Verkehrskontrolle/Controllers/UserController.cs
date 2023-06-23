@@ -8,7 +8,9 @@ namespace Verkehrskontrolle.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+#if BYPASS_AUTH
     [Authorize]
+#endif
     public class UserController : ControllerBase
     {
         private readonly IUserManager _userManager;

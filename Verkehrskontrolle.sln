@@ -7,24 +7,31 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verkehrskontrolle", "Verkeh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VerkehrskontrolleTests", "VerkehrskontrolleTests\VerkehrskontrolleTests.csproj", "{724E04BD-E37A-4981-A962-5ED6A625109D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerkehrskontrolleServiceTests", "VerkehrskontrolleTests1\VerkehrskontrolleServiceTests.csproj", "{B40C2DD3-1936-440D-B7C1-B7B3F2AA54BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VerkehrskontrolleServiceTests", "VerkehrskontrolleTests1\VerkehrskontrolleServiceTests.csproj", "{B40C2DD3-1936-440D-B7C1-B7B3F2AA54BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		DebugWithAuth|Any CPU = DebugWithAuth|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{37DBDA89-A7EA-48C5-8456-B9F7A4CDE888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37DBDA89-A7EA-48C5-8456-B9F7A4CDE888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37DBDA89-A7EA-48C5-8456-B9F7A4CDE888}.DebugWithAuth|Any CPU.ActiveCfg = DebugWithAuth|Any CPU
+		{37DBDA89-A7EA-48C5-8456-B9F7A4CDE888}.DebugWithAuth|Any CPU.Build.0 = DebugWithAuth|Any CPU
 		{37DBDA89-A7EA-48C5-8456-B9F7A4CDE888}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37DBDA89-A7EA-48C5-8456-B9F7A4CDE888}.Release|Any CPU.Build.0 = Release|Any CPU
 		{724E04BD-E37A-4981-A962-5ED6A625109D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{724E04BD-E37A-4981-A962-5ED6A625109D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{724E04BD-E37A-4981-A962-5ED6A625109D}.DebugWithAuth|Any CPU.ActiveCfg = Debug|Any CPU
+		{724E04BD-E37A-4981-A962-5ED6A625109D}.DebugWithAuth|Any CPU.Build.0 = Debug|Any CPU
 		{724E04BD-E37A-4981-A962-5ED6A625109D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{724E04BD-E37A-4981-A962-5ED6A625109D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B40C2DD3-1936-440D-B7C1-B7B3F2AA54BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B40C2DD3-1936-440D-B7C1-B7B3F2AA54BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B40C2DD3-1936-440D-B7C1-B7B3F2AA54BB}.DebugWithAuth|Any CPU.ActiveCfg = Debug|Any CPU
+		{B40C2DD3-1936-440D-B7C1-B7B3F2AA54BB}.DebugWithAuth|Any CPU.Build.0 = Debug|Any CPU
 		{B40C2DD3-1936-440D-B7C1-B7B3F2AA54BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B40C2DD3-1936-440D-B7C1-B7B3F2AA54BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
