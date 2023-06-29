@@ -19,7 +19,7 @@ builder.Services.AddSingleton(Options.Create(jwtSettings));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(ConfigureSwaggerOptions.ConfigureSwagger);
 
 // Add application services to the container.
 builder.Services.AddTransient<IHalterAbfrageService, HalterAbfrageService>();
@@ -33,7 +33,7 @@ builder.Services.AddDbContext<VerkehrskontrolleDbContext>((opt) =>
 
 builder.Services.AddDbContext<AuthDbContext>((opt) =>
 {
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("default"),cfg =>
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("default"), cfg =>
     {
         cfg.MigrationsHistoryTable("__EFMigrationsHistory_Auth");
     });
